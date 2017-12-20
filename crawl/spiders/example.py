@@ -19,8 +19,10 @@ class ExampleSpider(scrapy.Spider):
             "Pragma": "no-cache",
             "Cache-Control": "no-cache",
             "Upgrade-Insecure-Requests": "1",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) \
+            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/\
+            537.36", "Accept": "text/html,application/xhtml+xml,application/xm\
+            l;q=0.9,image/webp,image/apng,*/*;q=0.8",
             "Accept-Encoding": "gzip, deflate",
             "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8"
         }
@@ -32,11 +34,14 @@ class ExampleSpider(scrapy.Spider):
         for sel in response.css("ul.note-list li"):
             jianshu = CrawlItem()
             jianshu['name'] = sel.css('a.title::text').extract_first()
+
             self.log(sel.css('a.title::text').extract_first())
-            self.log('info ===> %s' % sel.css('p.abstract::text').extract_first())
+            self.log('info ===> %s' % sel.css(
+                'p.abstract::text').extract_first())
             jianshu['info'] = sel.css('p.abstract::text').extract_first()
             jianshu['link'] = sel.css('a.title::attr(href)').extract_first()
-            self.log('link ===> %s' % sel.css('a.title::attr(href)').extract_first())
+            self.log('link ===> %s' % sel.css(
+                'a.title::attr(href)').extract_first())
             yield jianshu
 
         # page = response.url.split("/")[-1]
